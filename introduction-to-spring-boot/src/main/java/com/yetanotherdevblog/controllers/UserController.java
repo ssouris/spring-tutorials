@@ -41,8 +41,8 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public User insertUser(@RequestBody User updatedUser) {
-        return userRepository.save(updatedUser);
+    public User insertUser(@RequestBody User newUser) {
+        return userRepository.save(newUser);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{userId}")
