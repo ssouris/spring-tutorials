@@ -1,4 +1,6 @@
-# Introduction to Spring Data MongoDB [![Build Status](https://travis-ci.org/ssouris/spring-tutorials.svg)](https://travis-ci.org/ssouris/spring-tutorials)
+# Introduction to Spring Data MongoDB 
+[![Build Status](https://travis-ci.org/ssouris/spring-tutorials.svg)](https://travis-ci.org/ssouris/spring-tutorials)
+[![Build Status](https://img.shields.io/badge/yetanotherdevblog.com-introduction--to--spring--data--mongodb-red.svg)](http://yetanotherdevblog.com/introduction-to-spring-data-mongodb)
 
 This project demonstrates some very basic stuff about Spring Data MondgoDB.
 
