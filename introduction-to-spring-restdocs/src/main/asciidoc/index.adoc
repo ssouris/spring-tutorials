@@ -1,0 +1,138 @@
+
+= RESTful API Guide
+Yet Another;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[overview]]
+= Overview
+
+[[overview-http-verbs]]
+== HTTP verbs
+
+This RESTful API tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP verbs.
+
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource
+
+| `POST`
+| Used to create a new resource
+
+| `PUT`
+| Used to update an existing resource, including partial updates
+
+| `DELETE`
+| Used to delete an existing resource
+|===
+
+[[overview-http-status-codes]]
+== HTTP status codes
+
+This RESTful API tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP status codes.
+
+|===
+| Status code | Usage
+
+| `200 OK`
+| The request completed successfully
+
+| `201 Created`
+| A new resource has been created successfully. The resource's URI is available from the response's
+`Location` header
+
+| `204 No Content`
+| An update to an existing resource has been applied successfully
+
+| `400 Bad Request`
+| The request was malformed. The response body will include an error providing further information
+
+| `404 Not Found`
+| The requested resource did not exist
+|===
+
+[[resources]]
+= Resources
+
+[[resources-get-users]]
+== Listing users
+
+A `GET` request will list all of the users.
+
+=== Response structure
+
+include::{snippets}/getUsers/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/getUsers/curl-request.adoc[]
+
+=== Example response
+
+include::{snippets}/getUsers/http-response.adoc[]
+
+
+
+[[resources-insert-user]]
+== Inserting a user
+
+A `POST` request is used to insert a user.
+
+=== Request structure
+
+include::{snippets}/insertUser/request-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/insertUser/curl-request.adoc[]
+
+=== Example response
+
+include::{snippets}/insertUser/http-response.adoc[]
+
+
+
+[[resources-get-user]]
+== Get a user
+
+A `GET` request is used to get a user.
+
+=== Response structure
+
+include::{snippets}/getUser/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/getUser/curl-request.adoc[]
+
+=== Example response
+
+include::{snippets}/getUser/http-response.adoc[]
+
+
+
+[[resources-update-user]]
+== Update a user
+
+A `PUT` request is used to update a user.
+
+=== Request structure
+
+include::{snippets}/updateUser/request-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/updateUser/curl-request.adoc[]
+
+=== Example response
+
+include::{snippets}/updateUser/http-response.adoc[]
+
