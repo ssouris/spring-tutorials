@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 
 /**
  * In memory implementation of {@linkplain UserDatastore}.
- * Login can be applied to all the methods implemented to fetch data from
+ * Logic can be applied to all the methods implemented to fetch data from
  * any datastore. For example there might be an sql datastore and a cache 
  * datastore, and we want to look in the cache first and then in the sql datastore
  * to save some trips to the database.
  * 
- * In the current implementation an ever growing ArrayList is used.
- * This was done only for demonstrating the functionaliry of Spring Rest Docs
- * and shold never be used as is in production.
+ * In the current implementation an ArrayList is used.
+ * Implemented only for demonstrating the functionality of Spring Rest Docs
+ * and should never be used in production.
  */
 @Service
 public class UserDatastoreInMemoryImpl implements UserDatastore  {
