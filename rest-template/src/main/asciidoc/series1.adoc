@@ -1,0 +1,29 @@
+= Introduction to Spring RestTemplate - Series 1
+
+== What is RestTemplate?
+
+RestTemplate is Spring's central class for synchronous clien-side HTTP access.
+It's meant to simplify communication with HTTP servers and enforce RESTful principles.
+
+Be default RestTemplate relies on standard JDK facilities to establish
+HTTP connections. You can switch to use different HTTP liberay like Apache HttpComponents, Netty, OkHttp though the
+HttpAccessor.setRequestFactory(org.springframework.http.client.ClientHttpRequestFactory) property.
+
+Internally the template uses HttpMessageConverter instances to convert HTTP messages to and from POJOs.
+Converters for the main mime types are registered by default but you can also register additional converters
+via setMessageConverters(java.util.List<org.springframework.http.converter.HttpMessageConverter<?>>).
+
+This template uses a SimpleClientHttpRequestFactory and a DefaultResponseErrorHandler as default strategies for
+creating HTTP connections or handling HTTP errors, respectively. These defaults can be overridden through
+HttpAccessor.setRequestFactory(org.springframework.http.client.ClientHttpRequestFactory) and
+setErrorHandler(org.springframework.web.client.ResponseErrorHandler) respectively.
+
+== Using RestTemplate
+=== GET
+=== POST
+=== PUT
+=== DELETE
+=== OPTIONS
+=== PATCH
+== Get Location
+== Get Headers

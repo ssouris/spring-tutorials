@@ -1,0 +1,9 @@
+= Introduction to Spring RestTemplate - Series 3
+
+== Basic Authentication
+== TestRestTemplate
+== Handle Json
+== Jackson Views
+
+== Resources
+--> http://forum.spring.io/forum/spring-projects/web/99054-disabling-followredirect-in-resttemplate

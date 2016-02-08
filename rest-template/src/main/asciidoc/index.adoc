@@ -1,0 +1,12 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+:sectlinks:
+:examples-dir: ../../test/java
+:github: https://github.com/ssouris/spring-tutorials
+
+include::series1.adoc[]
+include::series2.adoc[]
+include::series3.adoc[]
