@@ -1,0 +1,7 @@
+= Introduction to Spring RestTemplate - Series 2
+
+== Setting Timeouts
+== Set Custom Header
+=== right on the spot
+=== globally
+== Follow/Unfollow Redirects
