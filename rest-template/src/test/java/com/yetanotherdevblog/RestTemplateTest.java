@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.util.Arrays;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import org.junit.Ignore;
@@ -14,62 +15,165 @@ import org.junit.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.http.client.*;
-import org.springframework.util.Assert;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import static org.springframework.util.Assert.*;
+
 /**
  * https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html
  */
+@Ignore
 public class RestTemplateTest {
 
-    private RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate;
 
-    // exchange GET
-    // exchange POST
-    // exchange PUT
-    // exchange DELETE
-
-    // getForEntity
-    // putForEntity
-    // blah blah
-
-
-    // How to get Status
-    // How to get Body
-    // How to get Headers
     @Test
-    @Ignore
-    public void test_GetStatus() {
-        ResponseEntity<String> response = restTemplate.getForEntity("http://example.com", String.class);
-        HttpStatus status = response.getStatusCode();
-        Assert.isTrue(status == HttpStatus.OK);
+    public void test_GET() throws URISyntaxException {
+        // tag::GET[]
+        restTemplate = new RestTemplate();
+        String url = "http://example.com";
+        URI uri = new URI(url);
+
+        ResponseEntity<String> responseGetForEntity=restTemplate.getForEntity(url, String.class);
+        ResponseEntity<String> responseGetForEntityURI=restTemplate.getForEntity(uri, String.class);
+        ResponseEntity<String> responseExchangeGET=restTemplate.exchange(url, HttpMethod.GET, null, String.class);
+        ResponseEntity<String> responseExchangeGETURI=restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
+        // end::GET[]
+
+        isTrue(responseGetForEntity.getStatusCode()==HttpStatus.OK);
+        isTrue(responseGetForEntityURI.getStatusCode()==HttpStatus.OK);
+        isTrue(responseExchangeGET.getStatusCode()==HttpStatus.OK);
+        isTrue(responseExchangeGETURI.getStatusCode()==HttpStatus.OK);
     }
 
     @Test
-    @Ignore
+    public void test_POST() throws URISyntaxException {
+        // tag::POST[]
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://example.com";
+        URI uri = new URI(url);
+
+        Object body = new Object();
+
+        ResponseEntity<String> responsePostForEntity=restTemplate.postForEntity(url, body, String.class);
+        ResponseEntity<String> responsePostForEntityURI=restTemplate.postForEntity(uri, body, String.class);
+        ResponseEntity<String> responseExchangePOST=restTemplate.exchange(url, HttpMethod.POST, null, String.class);
+        ResponseEntity<String> responseExchangePOSTURI=restTemplate.exchange(uri, HttpMethod.POST, null, String.class);
+        // end::POST[]
+
+        isTrue(responsePostForEntity.getStatusCode()==HttpStatus.OK);
+        isTrue(responsePostForEntityURI.getStatusCode()==HttpStatus.OK);
+        isTrue(responseExchangePOST.getStatusCode()==HttpStatus.OK);
+        isTrue(responseExchangePOSTURI.getStatusCode()==HttpStatus.OK);
+    }
+
+    @Test
+    public void test_PUT() throws URISyntaxException {
+        // tag::PUT[]
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://example.com";
+        URI uri = new URI(url);
+
+        Object body = new Object();
+
+        restTemplate.put(url, body);
+        restTemplate.put(uri, body);
+        // end::PUT[]
+    }
+
+    @Test
+    public void test_DELETE() throws URISyntaxException {
+        // tag::DELETE[]
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://example.com";
+        URI uri = new URI(url);
+
+        restTemplate.delete(url);
+        restTemplate.delete(uri);
+        // end::DELETE[]
+    }
+
+    @Test
+    public void test_OPTIONS() throws URISyntaxException {
+        // tag::OPTIONS[]
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://example.com";
+        URI uri = new URI(url);
+
+        Set<HttpMethod> allowHeaders = restTemplate.optionsForAllow(url);
+        Set<HttpMethod> allowHeadersURI = restTemplate.optionsForAllow(uri);
+
+        // end::OPTIONS[]
+    }
+
+    @Test
+    public void test_PATCH() throws URISyntaxException {
+        // tag::PATCH[]
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://example.com";
+        URI uri = new URI(url);
+
+        ResponseEntity<String> responseExchangePOST     = restTemplate.exchange(url, HttpMethod.PATCH, null, String.class);
+        ResponseEntity<String> responseExchangePOSTURI  = restTemplate.exchange(uri, HttpMethod.PATCH, null, String.class);
+        // end::PATCH[]
+
+        isTrue(responseExchangePOST.getStatusCode()     == HttpStatus.OK);
+        isTrue(responseExchangePOSTURI.getStatusCode()  == HttpStatus.OK);
+    }
+
+    // How to get Status
+    @Test
+    public void test_GetStatus() {
+        // tag::getStatus[]
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity("http://example.com", String.class);
+        HttpStatus status = response.getStatusCode();
+        // end::getStatus[]
+        isTrue(response.getStatusCode() == HttpStatus.OK);
+
+    }
+
+    // How to get Json Array (List of things on first level)
+    // How to get Headers
+    @Test
     public void test_WorkWithListOfThings() {
+        // tag::WorkWithListOfThings[]
+        RestTemplate restTemplate = new RestTemplate();
         ParameterizedTypeReference<List<String>> listOfStrings = new ParameterizedTypeReference<List<String>>() {};
         ResponseEntity<List<String>> response
                 = restTemplate.exchange("http://example.com",HttpMethod.GET,null,listOfStrings);
+        // end::WorkWithListOfThings[]
         HttpStatus status = response.getStatusCode();
-        Assert.isTrue(status == HttpStatus.OK);
+        isTrue(status == HttpStatus.OK);
     }
 
     @Test
-    @Ignore
     public void test_GetHeaders() {
+        // tag::getHeaders[]
+        RestTemplate restTemplate = new RestTemplate();
         ParameterizedTypeReference<List<String>> listOfString = new ParameterizedTypeReference<List<String>>() {};
         ResponseEntity<List<String>> response= restTemplate.exchange("http://example.com",HttpMethod.GET,null, listOfString);
-        HttpStatus status = response.getStatusCode();
-        Assert.isTrue(status == HttpStatus.OK);
+        notNull(response.getHeaders());
+        notNull(response.getHeaders().getOrigin());
+        notNull(response.getHeaders().getOrDefault("someHeaderKey", Collections.singletonList("test")));
+        // end::getHeaders[]
 
-        Assert.notNull(response.getHeaders());
-        Assert.notNull(response.getHeaders().getOrigin());
-        Assert.notNull(response.getHeaders().getOrDefault("someHeaderKey", Collections.singletonList("test")));
+        HttpStatus status = response.getStatusCode();
+        isTrue(status == HttpStatus.OK);
+
+    }
+
+    @Test
+    public void test_postForLocation() {
+        // tag::getLocation[]
+        RestTemplate restTemplate = new RestTemplate();
+        URI location = restTemplate.postForLocation("http://bit.ly/1NZCQPn", null);
+        // end::getLocation[]
+
     }
 
     // 2nd blog post
@@ -87,7 +191,7 @@ public class RestTemplateTest {
         ParameterizedTypeReference<List<String>> listOfString = new ParameterizedTypeReference<List<String>>() {};
         ResponseEntity<List<String>> response=restTemplate.exchange("http://example.com",HttpMethod.GET,request, listOfString);
         HttpStatus status = response.getStatusCode();
-        Assert.isTrue(status == HttpStatus.OK);
+        isTrue(status == HttpStatus.OK);
     }
 
     // use HeaderInsertingInterceptor ...
@@ -96,7 +200,7 @@ public class RestTemplateTest {
     @Test
     public void test_followRedirects() {
         ResponseEntity<String> response = restTemplate.exchange("http://bit.ly/1NZCQPn", HttpMethod.GET, null, String.class);
-        Assert.isTrue(response.getStatusCode() == HttpStatus.OK);
+        isTrue(response.getStatusCode() == HttpStatus.OK);
     }
     // end::followRedirects[]
 
@@ -106,14 +210,9 @@ public class RestTemplateTest {
     public void test_doNotfollowRedirects() {
         RestTemplate restTemplate1 = new RestTemplate(new SimpleClientHttpReqFactoryWithoutRedirects());
         ResponseEntity<String> response = restTemplate1.exchange("http://bit.ly/1NZCQPn", HttpMethod.GET, null, String.class);
-        Assert.isTrue(response.getStatusCode() == HttpStatus.MOVED_PERMANENTLY);
+        isTrue(response.getStatusCode() == HttpStatus.MOVED_PERMANENTLY);
     }
 
-    @Test
-    public void test_postForLocation() {
-        URI location = restTemplate.postForLocation("http://bit.ly/1NZCQPn", null);
-        System.out.println(location);
-    }
     // end::test_doNotfollowRedirects[]
 
     /**
