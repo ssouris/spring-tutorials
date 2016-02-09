@@ -70,7 +70,8 @@
                                 <configuration>
                                     <backend>html</backend>
                                     <doctype>book</doctype>
-                                    <sourceDocumentName>index.adoc</sourceDocumentName>
+                                    <sourceHighlighter>highlightjs</sourceHighlighter>
+                                    <!--<sourceDocumentName>index.adoc</sourceDocumentName>-->
                                     <attributes>
                                         <snippets>${snippetsDirectory}</snippets>
                                     </attributes>
