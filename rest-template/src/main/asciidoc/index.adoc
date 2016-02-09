@@ -1,11 +1,13 @@
 :doctype: book
 :icons: font
-:source-highlighter: highlightjs
+:highlightjs-theme: solarized_dark
 :toc: left
 :toclevels: 3
 :sectlinks:
 :examples-dir: ../../test/java
 :github: https://github.com/ssouris/spring-tutorials
+
+= Introduction to Spring RestTemplate
 
 include::series1.adoc[]
 include::series2.adoc[]

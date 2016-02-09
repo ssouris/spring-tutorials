@@ -1,7 +1,15 @@
-= Introduction to Spring RestTemplate - Series 2
+:icons: font
+:highlightjs-theme: solarized_dark
+:toc: left
+:toclevels: 3
+:sectlinks:
+:examples-dir: ../../test/java
+:github: https://github.com/ssouris/spring-tutorials
 
-== Setting Timeouts
-== Set Custom Header
-=== right on the spot
-=== globally
-== Follow/Unfollow Redirects
+== Introduction to Spring RestTemplate - Series 2
+
+=== Setting Timeouts
+=== Set Custom Header
+==== right on the spot
+==== globally
+=== Follow/Unfollow Redirects
