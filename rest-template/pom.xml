@@ -74,6 +74,7 @@
                                     <!--<sourceDocumentName>index.adoc</sourceDocumentName>-->
                                     <attributes>
                                         <snippets>${snippetsDirectory}</snippets>
+                                        <highlightjs-theme>solarized_dark</highlightjs-theme>
                                     </attributes>
                                 </configuration>
                             </execution>
@@ -126,8 +127,9 @@
                                     <backend>pdf</backend>
                                     <!-- Since 1.5.0-alpha.9 PDF back-end can use 'rouge' as well as 'coderay'
                                     source highlighting -->
-                                    <sourceHighlighter>rouge</sourceHighlighter>
+                                    <sourceHighlighter>highlightjs</sourceHighlighter>
                                     <attributes>
+                                        <highlightjs-theme>solarized_dark</highlightjs-theme>
                                         <icons>font</icons>
                                         <pagenums/>
                                         <toc/>
