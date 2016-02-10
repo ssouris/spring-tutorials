@@ -119,15 +119,35 @@ public class RestTemplateTest {
         isTrue(!allowHeadersURI.isEmpty());
     }
 
-    // How to get Status
     @Test
-    public void test_GetStatus() {
-        // tag::getStatus[]
+    public void test_postForLocation() throws URISyntaxException {
+        // tag::getLocation[]
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity(baseUrl, String.class);
-        HttpStatus status = response.getStatusCode();
-        // end::getStatus[]
+        URI location = restTemplate.postForLocation(baseUrl, null);
+        // end::getLocation[]
 
+        isTrue(location.equals(new URI("http://example.com")));
+    }
+
+    @Test
+    public void test_GetHeaders() {
+        baseUrl=baseUrl+"/list";
+
+        // tag::getHeaders[]
+        RestTemplate restTemplate = new RestTemplate();
+        ParameterizedTypeReference<List<String>> listOfString = new ParameterizedTypeReference<List<String>>() {};
+        ResponseEntity<List<String>> response= restTemplate.exchange(baseUrl,HttpMethod.GET,null, listOfString);
+        HttpHeaders headers = response.getHeaders();
+        MediaType contentType = headers.getContentType();
+        long date = headers.getDate();
+        List<String> getOrDefault = headers.getOrDefault("X-Forwarded", Collections.singletonList("Does not exists"));
+        // end::getHeaders[]
+
+        HttpStatus status = response.getStatusCode();
+        notNull(headers);
+        notNull(contentType);
+        notNull(date);
+        notNull(getOrDefault);
         isTrue(status == HttpStatus.OK);
     }
 
@@ -146,39 +166,6 @@ public class RestTemplateTest {
         // end::WorkWithListOfThings[]
 
         isTrue(response.getStatusCode() == HttpStatus.OK);
-    }
-
-    @Test
-    public void test_GetHeaders() {
-        baseUrl=baseUrl+"/list";
-
-        // tag::getHeaders[]
-        RestTemplate restTemplate = new RestTemplate();
-        ParameterizedTypeReference<List<String>> listOfString = new ParameterizedTypeReference<List<String>>() {};
-        ResponseEntity<List<String>> response= restTemplate.exchange(baseUrl,HttpMethod.GET,null, listOfString);
-        HttpHeaders headers = response.getHeaders();
-        MediaType contentType = headers.getContentType();
-        long date = headers.getDate();
-        List<String> getOrDefault = headers.getOrDefault("X-Forwarded", Collections.singletonList("Does not exists"));
-
-        // end::getHeaders[]
-
-        HttpStatus status = response.getStatusCode();
-        notNull(headers);
-        notNull(contentType);
-        notNull(date);
-        notNull(getOrDefault);
-        isTrue(status == HttpStatus.OK);
-    }
-
-    @Test
-    public void test_postForLocation() throws URISyntaxException {
-        // tag::getLocation[]
-        RestTemplate restTemplate = new RestTemplate();
-        URI location = restTemplate.postForLocation(baseUrl, null);
-        // end::getLocation[]
-
-        isTrue(location.equals(new URI("http://example.com")));
     }
 
     @Test
@@ -208,6 +195,18 @@ public class RestTemplateTest {
 
         isTrue(response.getStatusCode() == HttpStatus.OK);
         isTrue(response.getStatusCode() == HttpStatus.OK);
+    }
+
+    // How to get Status
+    @Test
+    public void test_GetStatus() {
+        // tag::getStatus[]
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity(baseUrl, String.class);
+        HttpStatus status = response.getStatusCode();
+        // end::getStatus[]
+
+        isTrue(status == HttpStatus.OK);
     }
 
     // 2nd blog post

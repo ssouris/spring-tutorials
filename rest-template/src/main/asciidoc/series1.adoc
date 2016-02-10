@@ -92,6 +92,12 @@ include::{examples-dir}/com/yetanotherdevblog/RestTemplateTest.java[tags=addQuer
 <1> Using UriComponentsBuilder to build/encode the url
 <2> Using RestTemplate API
 
+=== Get Status
+[source,java,indent=0]
+----
+include::{examples-dir}/com/yetanotherdevblog/RestTemplateTest.java[tags=getStatus]
+----
+
 === Finishing First Series
 This was basic stuff about RestTemplate.
 In next series I am gonna dive into more fine-grained details of how to customize RestTemplate behaviour like
