@@ -5,14 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -20,12 +19,17 @@ import java.util.Set;
 public class Application {
 
     @RequestMapping(value = "/api", method = RequestMethod.GET)
-    public HttpEntity<String> simpleGet() {
-        return new HttpEntity<>("Hello World");
+    public HttpEntity<String> simpleGet(@RequestParam(required = false, value = "applicationName") String applicationName) {
+        return new HttpEntity<>("Hello");
+    }
+
+    @RequestMapping(value = "/api/list", method = RequestMethod.GET)
+    public HttpEntity<List<String>> simpleGetListOfThings(@RequestParam(required = false, value = "applicationName") String applicationName) {
+        return new HttpEntity<>(Arrays.asList("Hello", "World"));
     }
 
     @RequestMapping(value = "/api", method = RequestMethod.POST)
-    public HttpEntity<String> simplePost(@RequestBody String message) throws URISyntaxException {
+    public HttpEntity<String> simplePost(@RequestBody(required = false) String message) throws URISyntaxException {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(new URI("http://example.com"));
         return new HttpEntity<>("Hello World", headers);
@@ -37,17 +41,12 @@ public class Application {
     }
 
     @RequestMapping(value = "/api", method = RequestMethod.DELETE)
-    public HttpEntity<String> simpleDelete(@RequestBody String message) {
-        return new HttpEntity<>("Hello World");
-    }
-
-    @RequestMapping(value = "/api", method = RequestMethod.PATCH)
-    public HttpEntity<String> simplePatch(@RequestBody String message) {
+    public HttpEntity<String> simpleDelete() {
         return new HttpEntity<>("Hello World");
     }
 
     @RequestMapping(value = "/api", method = RequestMethod.OPTIONS)
-    public HttpEntity<String> simpleOptions(@RequestBody String message) {
+    public HttpEntity<String> simpleOptions() {
         HttpHeaders headers = new HttpHeaders();
 
         Set<HttpMethod> allowedOps = new HashSet<>();

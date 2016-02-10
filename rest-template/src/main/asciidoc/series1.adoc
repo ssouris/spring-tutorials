@@ -53,11 +53,7 @@ include::{examples-dir}/com/yetanotherdevblog/RestTemplateTest.java[tags=DELETE]
 
 ==== OPTIONS
 [source,java,indent=0]
-include::{examples-dir}/com/yetanotherdevblog/RestTemplateTest.java[tags=OPTIONS]
-
-==== PATCH
-[source,java,indent=0]
-include::{examples-dir}/com/yetanotherdevblog/RestTemplateTest.java[tags=PATCH]
+include::{examples-dir}/com/yetanotherdevblog/RestTemplateTest.java[tags=OPTIONS_API_CALL]
 
 === Get Location
 [source,java,indent=0]
@@ -74,6 +70,14 @@ include::{examples-dir}/com/yetanotherdevblog/RestTemplateTest.java[tags=getHead
 ----
 include::{examples-dir}/com/yetanotherdevblog/RestTemplateTest.java[tags=WorkWithListOfThings]
 ----
+
+=== Adding Query or Path params
+[source,java,indent=0]
+----
+include::{examples-dir}/com/yetanotherdevblog/RestTemplateTest.java[tags=addQueryOrPathParams]
+----
+<1> Using UriComponentsBuilder to build/encode the url
+<2> Using RestTemplate API
 
 === Finishing First Series
 We saw very basic stuff about RestTemplate. In next series I am gonna dive into more fine-grained details
