@@ -27,6 +27,7 @@
         <module>introduction-to-spring-data-mongodb/</module>
         <module>introduction-to-spring-boot/</module>
         <module>introduction-to-spring-restdocs/</module>
+        <module>rest-template/</module>
     </modules>
 
 </project>
