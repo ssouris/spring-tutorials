@@ -9,7 +9,24 @@
 == Introduction to Spring RestTemplate - Series 2
 
 === Setting Timeouts
+[source,java,indent=0]
+----
+include::{examples-dir}/com/yetanotherdevblog/RestTemplateTest.java[tags=settingTimeouts]
+----
+
 === Set Custom Header
-==== right on the spot
-==== globally
+[source,java,indent=0]
+----
+include::{examples-dir}/com/yetanotherdevblog/RestTemplateTest.java[tags=sendCustomHeader]
+----
+
 === Follow/Unfollow Redirects
+[source,java,indent=0]
+----
+include::{examples-dir}/com/yetanotherdevblog/RestTemplateTest.java[tags=followRedirects]
+----
+
+[source,java,indent=0]
+----
+include::{examples-dir}/com/yetanotherdevblog/RestTemplateTest.java[tags=test_doNotfollowRedirects]
+----

@@ -51,11 +51,11 @@ public class RestTemplateTest {
         ResponseEntity<String> responseExchangeURI = restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
         // end::GET[]
 
-        isTrue(response.getStatusCode()==HttpStatus.OK);
-        isTrue(responseExchange.getStatusCode()==HttpStatus.OK);
+        isTrue(response.getStatusCode() == HttpStatus.OK);
+        isTrue(responseExchange.getStatusCode() == HttpStatus.OK);
 
-        isTrue(responseURI.getStatusCode()==HttpStatus.OK);
-        isTrue(responseExchangeURI.getStatusCode()==HttpStatus.OK);
+        isTrue(responseURI.getStatusCode() == HttpStatus.OK);
+        isTrue(responseExchangeURI.getStatusCode() == HttpStatus.OK);
     }
 
     @Test
@@ -66,19 +66,19 @@ public class RestTemplateTest {
 
         String body = "The Body";
 
-        ResponseEntity<String> response=restTemplate.postForEntity(baseUrl, body, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, body, String.class);
 
         HttpEntity<String> request = new HttpEntity<>(body);
-        ResponseEntity<String> responseExchange=restTemplate.exchange(baseUrl, HttpMethod.POST, request, String.class);
+        ResponseEntity<String> responseExchange = restTemplate.exchange(baseUrl, HttpMethod.POST, request, String.class);
 
-        ResponseEntity<String> responseURI=restTemplate.postForEntity(uri, body, String.class);
-        ResponseEntity<String> responseExchangeURI=restTemplate.exchange(uri, HttpMethod.POST, request, String.class);
+        ResponseEntity<String> responseURI = restTemplate.postForEntity(uri, body, String.class);
+        ResponseEntity<String> responseExchangeURI = restTemplate.exchange(uri, HttpMethod.POST, request, String.class);
         // end::POST[]
 
-        isTrue(response.getStatusCode()==HttpStatus.OK);
-        isTrue(responseURI.getStatusCode()==HttpStatus.OK);
-        isTrue(responseExchange.getStatusCode()==HttpStatus.OK);
-        isTrue(responseExchangeURI.getStatusCode()==HttpStatus.OK);
+        isTrue(response.getStatusCode() == HttpStatus.OK);
+        isTrue(responseURI.getStatusCode() == HttpStatus.OK);
+        isTrue(responseExchange.getStatusCode() == HttpStatus.OK);
+        isTrue(responseExchangeURI.getStatusCode() == HttpStatus.OK);
     }
 
     @Test
@@ -131,12 +131,13 @@ public class RestTemplateTest {
 
     @Test
     public void test_GetHeaders() {
-        baseUrl=baseUrl+"/list";
+        baseUrl = baseUrl + "/list";
 
         // tag::getHeaders[]
         RestTemplate restTemplate = new RestTemplate();
-        ParameterizedTypeReference<List<String>> listOfString = new ParameterizedTypeReference<List<String>>() {};
-        ResponseEntity<List<String>> response= restTemplate.exchange(baseUrl,HttpMethod.GET,null, listOfString);
+        ParameterizedTypeReference<List<String>> listOfString = new ParameterizedTypeReference<List<String>>() {
+        };
+        ResponseEntity<List<String>> response = restTemplate.exchange(baseUrl, HttpMethod.GET, null, listOfString);
         HttpHeaders headers = response.getHeaders();
         MediaType contentType = headers.getContentType();
         long date = headers.getDate();
@@ -155,14 +156,15 @@ public class RestTemplateTest {
     // How to get Headers
     @Test
     public void test_WorkWithListOfThings() {
-        baseUrl=baseUrl+"/list";
+        baseUrl = baseUrl + "/list";
 
         // tag::WorkWithListOfThings[]
         RestTemplate restTemplate = new RestTemplate();
 
-        ParameterizedTypeReference<List<String>> listOfStrings = new ParameterizedTypeReference<List<String>>() {};
+        ParameterizedTypeReference<List<String>> listOfStrings = new ParameterizedTypeReference<List<String>>() {
+        };
 
-        ResponseEntity<List<String>> response = restTemplate.exchange(baseUrl,HttpMethod.GET,null,listOfStrings);
+        ResponseEntity<List<String>> response = restTemplate.exchange(baseUrl, HttpMethod.GET, null, listOfStrings);
         // end::WorkWithListOfThings[]
 
         isTrue(response.getStatusCode() == HttpStatus.OK);
@@ -170,7 +172,7 @@ public class RestTemplateTest {
 
     @Test
     public void test_addQueryOrPathParams() {
-        baseUrl = baseUrl+"?applicationName={applicationName}";
+        baseUrl = baseUrl + "?applicationName={applicationName}";
 
         // tag::addQueryOrPathParams[]
         RestTemplate restTemplate = new RestTemplate();
@@ -210,15 +212,26 @@ public class RestTemplateTest {
     }
 
     // 2nd blog post
+    // Timeouts
     // Get Headers
     // follow redirects
     // unfollow redirects
 
-    @Test
     @Ignore
-    public void test_SendSpecificHeaders() {
-        baseUrl=baseUrl+"/list";
+    public void test_ConfigureTimeoutsOnDefaultRequestFactory_SimpleClientHttpRequestFactory() {
+        // tag::settingTimeouts[]
+        RestTemplate restTemplate = new RestTemplate();
 
+        SimpleClientHttpRequestFactory rf = (SimpleClientHttpRequestFactory) restTemplate.getRequestFactory();
+        rf.setReadTimeout(1000);
+        rf.setConnectTimeout(1000);
+        // end::settingTimeouts[]
+    }
+
+    @Test
+    public void test_SendSpecificHeaders() {
+        // tag::sendCustomHeader[]
+        baseUrl = baseUrl + "/list";
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -226,46 +239,43 @@ public class RestTemplateTest {
         HttpEntity request = new HttpEntity(headers);
 
         ParameterizedTypeReference<List<String>> listOfString = new ParameterizedTypeReference<List<String>>() {};
-        ResponseEntity<List<String>> response=restTemplate.exchange(baseUrl,HttpMethod.GET,request, listOfString);
+        ResponseEntity<List<String>> response = restTemplate.exchange(baseUrl, HttpMethod.GET, request, listOfString);
         HttpStatus status = response.getStatusCode();
+        // end::sendCustomHeader[]
+
         isTrue(status == HttpStatus.OK);
     }
 
-    // use HeaderInsertingInterceptor ...
 
-    // tag::followRedirects[]
     @Test
-    @Ignore
     public void test_followRedirects() {
+        // tag::followRedirects[]
         RestTemplate restTemplate = new RestTemplate();
-
         ResponseEntity<String> response = restTemplate.exchange("http://bit.ly/1NZCQPn", HttpMethod.GET, null, String.class);
         isTrue(response.getStatusCode() == HttpStatus.OK);
+        // end::followRedirects[]
     }
-    // end::followRedirects[]
 
-
-    // tag::test_doNotfollowRedirects[]
     @Test
-    @Ignore
     public void test_doNotfollowRedirects() {
+        // tag::test_doNotfollowRedirects[]
+        /**
+         * Override behaviour of {@linkplain SimpleClientHttpRequestFactory} by overriding #setInstanceFollowRedirects
+         */
+        class SimpleClientHttpReqFactoryWithoutRedirects extends SimpleClientHttpRequestFactory {
+            @Override
+            protected void prepareConnection(HttpURLConnection connection, String httpMethod) throws IOException {
+                super.prepareConnection(connection, httpMethod);
+                connection.setInstanceFollowRedirects(false);
+            }
+        }
+
         RestTemplate restTemplate1 = new RestTemplate(new SimpleClientHttpReqFactoryWithoutRedirects());
         ResponseEntity<String> response = restTemplate1.exchange("http://bit.ly/1NZCQPn", HttpMethod.GET, null, String.class);
         isTrue(response.getStatusCode() == HttpStatus.MOVED_PERMANENTLY);
+        // end::test_doNotfollowRedirects[]
     }
 
-    // end::test_doNotfollowRedirects[]
-
-    /**
-     * Override behaviour of {@linkplain SimpleClientHttpRequestFactory} by overriding #setInstanceFollowRedirects
-     */
-    public static class SimpleClientHttpReqFactoryWithoutRedirects extends SimpleClientHttpRequestFactory {
-        @Override
-        protected void prepareConnection(HttpURLConnection connection, String httpMethod) throws IOException {
-            super.prepareConnection(connection, httpMethod);
-            connection.setInstanceFollowRedirects(false);
-        }
-    }
 
 //    private void addAuthentication(String username, String password) {
 //        if (username == null) {
@@ -277,31 +287,6 @@ public class RestTemplateTest {
 //        setRequestFactory(new InterceptingClientHttpRequestFactory(getRequestFactory(),
 //                interceptors));
 //    }
-
-    /**
-     * Basic Authorization interceptor
-     */
-    public static class BasicAuthorizationInterceptor
-            implements ClientHttpRequestInterceptor {
-
-        private final String username;
-        private final String password;
-
-        BasicAuthorizationInterceptor(String username, String password) {
-            this.username = username;
-            this.password = (password == null ? "" : password);
-        }
-
-        @Override
-        public ClientHttpResponse intercept(HttpRequest request, byte[] body,
-                                            ClientHttpRequestExecution execution) throws IOException {
-            String token = Base64Utils.encodeToString(
-                    (this.username + ":" + this.password).getBytes("UTF-8"));
-            request.getHeaders().add("Authorization", "Basic " + token);
-            return execution.execute(request, body);
-        }
-
-    }
 
     @Ignore
     public void test_SendMultipart() throws UnsupportedEncodingException {
@@ -334,9 +319,6 @@ public class RestTemplateTest {
 //        restTemplate.getInterceptors().add(new ClientHttpRequestInterceptor() {
 //            @Override
 //            public ClientHttpResponse intercept(HttpRequest hr, byte[] bytes, ClientHttpRequestExecution chre) throws IOException {
-//                
-//                
-//                
 //                return chre.execute(hr, bytes);
 //            }
 //        });
@@ -347,7 +329,8 @@ public class RestTemplateTest {
         // do your thingy
     }
 
-    public interface PublicView {}
+    public interface PublicView {
+    }
 
     public static class BigObject {
 
@@ -393,16 +376,32 @@ public class RestTemplateTest {
             this.field1 = field1;
         }
     }
-    
+
     // DefaultResponseErrorHandler
 
-    @Ignore
-    public void test_ConfigureTimeoutsOnDefaultRequestFactory_SimpleClientHttpRequestFactory() {
-        RestTemplate restTemplate = new RestTemplate();
+    /**
+     * Basic Authorization interceptor
+     */
+    public static class BasicAuthorizationInterceptor
+            implements ClientHttpRequestInterceptor {
 
-        SimpleClientHttpRequestFactory rf = (SimpleClientHttpRequestFactory) restTemplate.getRequestFactory();
-        rf.setReadTimeout(1000);
-        rf.setConnectTimeout(1000);
+        private final String username;
+        private final String password;
+
+        BasicAuthorizationInterceptor(String username, String password) {
+            this.username = username;
+            this.password = (password == null ? "" : password);
+        }
+
+        @Override
+        public ClientHttpResponse intercept(HttpRequest request, byte[] body,
+                                            ClientHttpRequestExecution execution) throws IOException {
+            String token = Base64Utils.encodeToString(
+                    (this.username + ":" + this.password).getBytes("UTF-8"));
+            request.getHeaders().add("Authorization", "Basic " + token);
+            return execution.execute(request, body);
+        }
+
     }
-    
+
 }
