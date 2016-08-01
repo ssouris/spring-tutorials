@@ -5,7 +5,11 @@ import com.yetanotherdevblog.domain.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.boot.context.embedded.EmbeddedWebApplicationContext;
+import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.IntegrationTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,14 +21,18 @@ import java.util.Map;
 
 import static com.jayway.restassured.RestAssured.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
-@WebAppConfiguration
-@IntegrationTest
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserControllerLiveTest {
 
-
 	private User aUser;
+
+	@LocalServerPort
+	private int port;
+
+	private String getBaseUrl() {
+		return "http://localhost:" + port;
+	}
 
 	/**
 	 * Insert a user before every test
@@ -37,8 +45,9 @@ public class UserControllerLiveTest {
 
 	@Test
 	public void test_GetUser() {
-		User getUser
-				= get("/api/users/{0}", aUser.getId()).as(User.class);
+
+
+		User getUser = get(getBaseUrl() + "/api/users/{0}", aUser.getId()).as(User.class);
 
 		Assert.notNull(getUser);
 		Assert.isTrue(aUser.getId().equals(getUser.getId()));
@@ -50,8 +59,10 @@ public class UserControllerLiveTest {
 		requestParams.put("page", "0");
 		requestParams.put("size", "2");
 
-		String response = get("/api/users?page={page}&size={size}", requestParams)
-						.asString();
+		String response = with()
+				.basePath(getBaseUrl())
+				.get(getBaseUrl()+"/api/users?page={page}&size={size}", requestParams)
+				.asString();
 
 		Assert.isTrue(response.contains(aUser.getFirstName()));
 		Assert.isTrue(response.contains(aUser.getLastName()));
@@ -80,17 +91,18 @@ public class UserControllerLiveTest {
 		aUser.setUsername(username);
 
 		return with().body(aUser)
-            .contentType(ContentType.JSON)
-            .post("/api/users")
-            .andReturn()
-            .as(User.class);
+            	.contentType(ContentType.JSON)
+				.baseUri(getBaseUrl())
+            	.post("/api/users")
+            	.andReturn()
+            	.as(User.class);
 	}
 
 	private User updateUser(Long userId, User updateDto) {
 		return with()
 				.body(updateDto)
 				.contentType(ContentType.JSON)
-				.put("/api/users/{0}", userId)
+				.put("http://localhost:"+port+"/api/users/{0}", userId)
 				.andReturn()
 				.as(User.class);
 	}
