@@ -1,3 +1,4 @@
-ignore:
-    - "tests/*"
-    - "**/*Application.java"
+coverage:
+  ignore:
+    - .*\/src\/test\/.*
+    - .*\/.*Application.java
