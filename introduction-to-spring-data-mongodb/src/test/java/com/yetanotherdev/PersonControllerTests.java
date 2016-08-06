@@ -1,19 +1,15 @@
 package com.yetanotherdev;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yetanotherdev.controller.PersonController;
 import com.yetanotherdev.domain.Person;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -22,11 +18,8 @@ import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Created by esouris on 8/6/16.
- */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = MongoDbApp.class)
+@SpringBootTest(classes = MongoDbApplication.class)
 public class PersonControllerTests {
 
 

@@ -21,7 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import static org.springframework.util.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = RestTemplateApplication.class)
 @WebAppConfiguration
 @IntegrationTest
 public class RestTemplateTest {

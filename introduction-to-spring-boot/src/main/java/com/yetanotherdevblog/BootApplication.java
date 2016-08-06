@@ -1,13 +1,13 @@
-package com.yetanotherdev;
+package com.yetanotherdevblog;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MongoDbApp {
+public class BootApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MongoDbApp.class, args);
+        SpringApplication.run(BootApplication.class, args);
     }
 
 }

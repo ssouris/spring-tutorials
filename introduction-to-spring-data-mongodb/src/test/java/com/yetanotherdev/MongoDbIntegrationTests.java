@@ -23,7 +23,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.core.query.Update.update;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = MongoDbApp.class)
+@SpringBootTest(classes = MongoDbApplication.class)
 public class MongoDbIntegrationTests {
 
 	@Autowired
