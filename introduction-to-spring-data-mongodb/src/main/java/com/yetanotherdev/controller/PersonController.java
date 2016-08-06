@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 
 @RestController
-@RequestMapping("/api/v1/persons")
+@RequestMapping("/api/v1/people")
 public class PersonController {
 
     private final PersonRepository personRepository;
@@ -23,7 +23,7 @@ public class PersonController {
     }
 
     @PostMapping
-    public Person savePersons(@RequestBody Person person) {
+    public Person savePerson(@RequestBody Person person) {
         return personRepository.save(person);
     }
 
