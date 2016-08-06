@@ -70,6 +70,10 @@ public class UserControllerDocumentation {
         
         insertUser(user);
 
+        User user1 = new User(null, "foobar1", "Foo1", "Bar1");
+
+        insertUser(user1);
+
         getUser(user.getUserId());
 
         getUsers();
@@ -77,8 +81,14 @@ public class UserControllerDocumentation {
         user = new User(user.getUserId(), "foobar_changed", "Foo_changed", "Bar_changed");
         
         updateUser(user);
-        
+
+        user1 = new User(UUID.randomUUID(), "foobar1_changed", "Foo1_changed", "Bar1_changed");
+
+        updateUser(user1);
+
         deleteUser(user.getUserId());
+
+        deleteUser(UUID.randomUUID());
         
     }
 
@@ -86,7 +96,7 @@ public class UserControllerDocumentation {
         
         RestDocumentationResultHandler document = documentPrettyPrintReqResp("insertUser");
         
-        document.snippets(
+        document.document(
                 requestFields(userFields(false)),
                 responseFields(userFields(false))
         );
@@ -103,7 +113,7 @@ public class UserControllerDocumentation {
         
         RestDocumentationResultHandler document = documentPrettyPrintReqResp("getUser");
         
-        document.snippets(
+        document.document(
                 pathParameters(userPathParams()),
                 responseFields(userFields(false))
         );
@@ -122,7 +132,7 @@ public class UserControllerDocumentation {
         
         RestDocumentationResultHandler document = documentPrettyPrintReqResp("getUsers");
         
-        document.snippets(
+        document.document(
                 pathParameters(
                         parameterWithName("page").description("Page of results"),
                         parameterWithName("size").description("Size of results")
@@ -146,7 +156,7 @@ public class UserControllerDocumentation {
         RestDocumentationResultHandler document = 
                 documentPrettyPrintReqResp("updateUser");
         
-        document.snippets(
+        document.document(
                 pathParameters(userPathParams()),
                 requestFields(userFields(false)),
                 responseFields(userFields(false))
@@ -165,7 +175,7 @@ public class UserControllerDocumentation {
         RestDocumentationResultHandler document = 
                 documentPrettyPrintReqResp("deleteUser");
                 
-        document.snippets(
+        document.document(
                 pathParameters(userPathParams()),
                 responseFields(userFields(false))
         );

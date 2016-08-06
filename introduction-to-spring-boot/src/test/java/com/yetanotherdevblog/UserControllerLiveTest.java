@@ -5,21 +5,17 @@ import com.yetanotherdevblog.domain.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.context.embedded.EmbeddedWebApplicationContext;
 import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
-
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.jayway.restassured.RestAssured.*;
+import static com.jayway.restassured.RestAssured.get;
+import static com.jayway.restassured.RestAssured.with;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -84,6 +80,18 @@ public class UserControllerLiveTest {
 		Assert.isTrue(updatedUser.getUsername().equals(updateDto.getUsername()));
 	}
 
+	@Test
+	public void test_PutUserFailure() {
+		User updateDto = new User();
+		updateDto.setUsername("Just");
+		updateDto.setFirstName("Update");
+		updateDto.setLastName("Me");
+
+		boolean notFound = updateUserFailure(10000L, updateDto);
+
+		assertThat(notFound).isEqualTo(true);
+	}
+
 	private User insertUser(String firstName, String lastName, String username) {
 		User aUser = new User();
 		aUser.setFirstName(firstName);
@@ -105,6 +113,16 @@ public class UserControllerLiveTest {
 				.put("http://localhost:"+port+"/api/users/{0}", userId)
 				.andReturn()
 				.as(User.class);
+	}
+
+
+	private boolean updateUserFailure(Long userId, User updateDto) {
+		return with()
+				.body(updateDto)
+				.contentType(ContentType.JSON)
+				.put("http://localhost:"+port+"/api/users/{0}", userId)
+				.andReturn()
+				.statusCode() == 404;
 	}
 
 }
