@@ -5,4 +5,5 @@
 
 How to run
 ----------
-- mvn clean package
+
+    mvn clean package
