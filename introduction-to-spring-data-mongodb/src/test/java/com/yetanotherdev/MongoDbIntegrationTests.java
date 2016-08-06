@@ -18,6 +18,9 @@ import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.core.query.Update.update;
@@ -94,12 +97,14 @@ public class MongoDbIntegrationTests {
 
 		mongoTemplate.insert(new Venue("Venue 6", new Point(150.93939251390387, 113.98040771484375)));
 
-		long venuesNear = mongoTemplate.count(
+		List<Venue> venueList = mongoTemplate.find(
 				query(where("location")
 						.near(new Point(51.00, -114.00))
 						.maxDistance(1.00)), Venue.class);
 
-		Assert.isTrue(venuesNear == 5);
+		assertThat(venueList).size().isEqualTo(5);
+		assertThat(venueList.get(0).getLocation()).isNotNull();
+		assertThat(venueList.get(0).getName()).isNotNull();
 	}
 
 	@Test

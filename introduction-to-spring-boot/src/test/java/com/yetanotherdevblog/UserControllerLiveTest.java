@@ -92,6 +92,20 @@ public class UserControllerLiveTest {
 		assertThat(notFound).isEqualTo(true);
 	}
 
+	@Test
+	public void test_DeleteUser() {
+		boolean deleted = deleteUser(this.aUser);
+		assertThat(deleted).isEqualTo(true);
+	}
+
+	private boolean deleteUser(User aUser) {
+		return with()
+				.contentType(ContentType.JSON)
+				.baseUri(getBaseUrl())
+				.delete("/api/users/{id}", aUser.getId())
+				.statusCode() == 200;
+	}
+
 	private User insertUser(String firstName, String lastName, String username) {
 		User aUser = new User();
 		aUser.setFirstName(firstName);
