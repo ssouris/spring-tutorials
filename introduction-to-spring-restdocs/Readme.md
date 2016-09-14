@@ -5,10 +5,12 @@ This project demonstrates how to produce API documentation with Spring Restdocs 
 
 How to produce API documentation
 ----------
+
   mvn clean package
 
 How to see produced html
 ----------
+
   mvn spring-boot:run and visit http://localhost:8080/docs/index.html
 
 
